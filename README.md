@@ -3,7 +3,7 @@
 # GraphNet - Front-end
 ### Sobre o repositório
 
-- Front-end do Projeto GraphNet, da matéria de Programação Web (2019/B) do curso de Ciência da Computação.
+- Front-end do Projeto GraphNet, da matéria de Programação Web (2019/B) do curso de Ciência da Computação da **Universidade do Sul de Santa Catarina (UNISUL)**.
 - Foram utilizadas as tecnologias Angular, Typescript.
 - Foram utilizadas as APIs do Google Maps para o funcionamento principal da página web.
 - O repositório que contém o projeto completo pode ser encontrado [aqui](https://github.com/FranciscoMelloJr/GraphNet).
