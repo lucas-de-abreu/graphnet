@@ -1,0 +1,36 @@
+<div class="container">
+    Área do Provedor
+    <div fxLayout
+        fxLayout.lt-lg="column"
+        fxLayoutAlign="center"
+        fxLayoutGap="10px"
+        fxLayoutGap.xs="0">
+
+
+          <div fxFlex="nogrow">
+                <mat-card class="fundo">
+
+                      <form class="form">  
+                            <h4 style="color: #3d3d3d">Digite as suas informações:</h4>
+
+                            <mat-form-field class="campo" appearance="outline">
+                                    <input matInput placeholder="CNPJ" [formControl]="cnpjFormControl">
+                                    <mat-error *ngIf="cnpjFormControl.hasError('required')">
+                                          O CNPJ é <strong>obrigatório</strong>
+                                    </mat-error>
+                              </mat-form-field>
+
+                              <mat-form-field class="campo" appearance="outline">
+                                    <input matInput type="password" placeholder="Senha" [formControl]="senhaFormControl">
+                                    <mat-error *ngIf="senhaFormControl.hasError('required')">
+                                          A senha é <strong>obrigatória</strong>
+                                    </mat-error>
+                              </mat-form-field>
+
+                            <a mat-button class="options" (click)="fazerLogin()">Login</a>
+                      </form>
+                </mat-card>
+          </div>
+    </div>
+</div>
+  

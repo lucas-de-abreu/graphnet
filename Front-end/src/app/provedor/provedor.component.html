@@ -1,0 +1,233 @@
+<div class="container">
+      <div fxLayout
+        fxLayout.lt-lg="column"
+        fxLayoutAlign="center"
+        fxLayoutGap="10px"
+        fxLayoutGap.xs="0">
+
+            <div fxFlex="nogrow">
+                  <mat-card class="fundo-mapa">
+                  <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+                        <agm-marker [iconUrl]="iconCliente" *ngFor="let p of clientes" [latitude]="p.latitude" [longitude]="p.longitude"> 
+                              <agm-info-window>
+                                    <p><strong>Nome:</strong> {{p.nome}}</p>
+                                    <p><strong>CPF:</strong> {{p.cpf}}</p>
+                                    <p><strong>Telefone:</strong> {{p.telefone}}</p>
+                                    <p><strong>E-mail:</strong> {{p.email}}</p>
+                                    <p><strong>Data de cadastro:</strong> {{p.data | date:'dd/MM/yyyy'}}</p>
+                                    <button class="options" (click)="desvincular(p.id)" mat-button>Desvincular</button>
+                                    <button class="options" (click)="removeSolicitacao(p.id)" mat-button>Remover</button>
+                              </agm-info-window>
+                        </agm-marker>
+                        
+                        <agm-marker [iconUrl]="iconVerde" *ngFor="let p of pendentesVerde" [latitude]="p.latitude" [longitude]="p.longitude"> 
+                              <agm-info-window>
+                                    <p><strong>Nome:</strong> {{p.nome}}</p>
+                                    <p><strong>CPF:</strong> {{p.cpf}}</p>
+                                    <p><strong>Telefone:</strong> {{p.telefone}}</p>
+                                    <p><strong>E-mail:</strong> {{p.email}}</p>
+                                    <p><strong>Data de cadastro:</strong> {{p.data | date:'dd/MM/yyyy'}}</p>
+                                    <button class="options" (click)="mostraAddCli(p)" mat-button>Vincular</button>
+                                    <button class="options" (click)="removeSolicitacao(p.id)" mat-button>Remover</button>
+                              </agm-info-window>
+                        </agm-marker>
+
+                        <agm-marker [iconUrl]="iconLaranja" *ngFor="let p of pendentesLaranja" [latitude]="p.latitude" [longitude]="p.longitude"> 
+                              <agm-info-window>
+                                    <p><strong>Nome:</strong> {{p.nome}}</p>
+                                    <p><strong>CPF:</strong> {{p.cpf}}</p>
+                                    <p><strong>Telefone:</strong> {{p.telefone}}</p>
+                                    <p><strong>E-mail:</strong> {{p.email}}</p>
+                                    <p><strong>Data de cadastro:</strong> {{p.data | date:'dd/MM/yyyy'}}</p>
+                                    <button class="options" (click)="mostraAddCli(p)" mat-button>Vincular</button>
+                                    <button class="options" (click)="removeSolicitacao(p.id)" mat-button>Remover</button>
+                              </agm-info-window>
+                        </agm-marker>
+
+                        <agm-marker [iconUrl]="iconVermelho" *ngFor="let p of pendentesVermelho" [latitude]="p.latitude" [longitude]="p.longitude"> 
+                              <agm-info-window>
+                                    <p><strong>Nome:</strong> {{p.nome}}</p>
+                                    <p><strong>CPF:</strong> {{p.cpf}}</p>
+                                    <p><strong>Telefone:</strong> {{p.telefone}}</p>
+                                    <p><strong>E-mail:</strong> {{p.email}}</p>
+                                    <p><strong>Data de cadastro:</strong> {{p.data | date:'dd/MM/yyyy'}}</p>
+                                    <button class="options" (click)="mostraAddCli(p)" mat-button>Vincular</button>
+                                    <button class="options" (click)="removeSolicitacao(p.id)" mat-button>Remover</button>
+                              </agm-info-window>
+                        </agm-marker>
+
+                        <agm-polyline  *ngFor="let l of linhas" [strokeOpacity]="0.8" [strokeWeight]="1" [strokeColor]="'purple'">
+                              <agm-polyline-point [latitude]="l.inicioLat" [longitude]="l.inicioLng">
+                              </agm-polyline-point>
+
+                              <agm-polyline-point [latitude]="l.fimLat" [longitude]="l.fimLng">
+                              </agm-polyline-point>
+                        </agm-polyline>
+
+                        <agm-polyline  *ngFor="let l of linhasCaixas" [strokeOpacity]="0.8" [strokeWeight]="1" [strokeColor]="'blue'">
+                              <agm-polyline-point [latitude]="l.inicioLat" [longitude]="l.inicioLng">
+                              </agm-polyline-point>
+
+                              <agm-polyline-point [latitude]="l.fimLat" [longitude]="l.fimLng">
+                              </agm-polyline-point>
+                        </agm-polyline>
+                        
+                        <agm-marker [iconUrl]="iconCaixa" *ngFor="let c of caixas" [latitude]="c.latitude" [longitude]="c.longitude"> 
+                              <agm-info-window>
+                                    <p><strong>Caixa de Distribuição</strong></p>
+                                    <p><strong>Nome:</strong> {{c.nome}}</p>
+                                    <button class="options" (click)="mostraVinculos(c)" mat-button>Vínculos</button>
+                                    <button class="options" (click)="removeCaixa(c.id)" mat-button>Remover</button>
+                              </agm-info-window>
+                        </agm-marker>
+
+                        <!--Esse aqui só vai aparecer na hora de cadastrar uma caixa nova.-->
+                        <agm-marker id="markerCaixa" [iconUrl]="iconCaixa" [visible]="visivelCaixa" [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+                        (dragEnd)="markerDragEnd($event)"></agm-marker>
+
+                        <!--Esse aqui só vai aparecer na hora de cadastrar um cliente novo.-->
+                        <agm-marker id="markerCliente" [iconUrl]="iconVerde" [visible]="visivelCliente" [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+                        (dragEnd)="markerDragEnd($event)"></agm-marker>
+                  </agm-map>
+                  </mat-card>
+
+                  <button type="button" (click)="mostraAddCaixa()" class="options-mapa" mat-button>Adicionar Caixa</button>
+                  <button type="button" (click)="mostraCadCli()" class="options-mapa" mat-button>Adicionar Cliente</button>
+                  <button matBadge="{{qtd}}" matBadgePosition="above after" matBadgeColor="warn" type="button" (click)="mostraNotificacoes()" class="options-mapa" mat-button>Notificações</button>
+            </div>
+            <div fxFlex="nogrow">
+                  <mat-card class="fundo">
+                        <div id="addCli" style="display:none">
+                              <strong>Adicionar o Cliente Pendente {{nomeCli}} à uma Caixa</strong>
+                              <p></p>
+                              <strong>Dados do Cliente Pendente:</strong>
+                              <p style="height:30px;"></p>
+                              <strong>CPF: </strong>{{cpfCli}}
+                              <p></p>
+                              <strong>Telefone: </strong>{{telefoneCli}}
+                              <p></p>
+                              <strong>E-mail: </strong>{{emailCli}}
+                              <p style="height: 150px;"></p>
+                              <form class="form">
+                                    <mat-form-field class="campo-select">
+                                          <mat-select [(value)]="caixaSelecionada" placeholder="Selecione a caixa">
+                                                <mat-option *ngFor="let c of caixas" [value]="c.id">{{c.nome}}</mat-option>
+                                          </mat-select>
+                                    </mat-form-field>
+                                    <p></p>
+                                    <button type="button" class="options" (click)="addCli()" mat-button>Adicionar à Caixa</button>
+                                    <button class="options" type="button" (click)="redirectTo('/provedor')" mat-button>Cancelar</button>
+                              </form>
+                        </div>
+
+                        <div id="addCaixa" style="display:none">
+                                    <strong>Adicionar uma Nova Caixa de Distribuição</strong>
+                                    <p></p>
+                                    <strong>Dados da Caixa:</strong>
+                                    <p style="height:30px;"></p>
+                                    
+                                    <form class="form">
+                                                <mat-form-field class="campo" appearance="outline">
+                                                            <input [(ngModel)]="nomeCaixa" matInput placeholder="Nome" [ngModelOptions]="{standalone: true}">
+                                                      </mat-form-field>
+                              
+                                                      <mat-form-field class="campo" appearance="outline">
+                                                            <input value={{address}} matInput placeholder="Endereço da Caixa"
+                                                            type="text" (keydown.enter)="$event.preventDefault()" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
+                                                      </mat-form-field>                              
+                                          <p></p>
+                                          <button type="button" class="options" (click)="addCaixa()" mat-button>Adicionar à Caixa</button>
+                                          <button class="options" type="button" (click)="redirectTo('/provedor')" mat-button>Cancelar</button>
+                                    </form>
+                              </div>
+
+                              <div id="cadCli" style="display:none">
+                                    <strong>Adicionar um novo Cliente</strong>
+                                    <p></p>
+                                    <strong>Dados da Cliente:</strong>
+                                    <p style="height:30px;"></p>
+                                    
+                                    <form class="form">
+                                          <mat-form-field class="campo" appearance="outline">
+                                                <input [(ngModel)]="cNomeCli" matInput placeholder="Nome" [ngModelOptions]="{standalone: true}">
+                                          </mat-form-field>
+                  
+                  
+                                          <mat-form-field class="campo" appearance="outline">
+                                                <input [(ngModel)]="cEmailCli" matInput placeholder="Email" [ngModelOptions]="{standalone: true}">
+                                          </mat-form-field>
+                  
+                                          <mat-form-field class="campo" appearance="outline">
+                                                <input [(ngModel)]="cTelefoneCli" matInput placeholder="Telefone" [ngModelOptions]="{standalone: true}">
+                                          </mat-form-field>
+                  
+                                          <mat-form-field class="campo" appearance="outline">
+                                                <input matInput [(ngModel)]="cCepCli" placeholder="CEP" [ngModelOptions]="{standalone: true}">
+                                          </mat-form-field>
+                  
+                                          <mat-form-field class="campo" appearance="outline">
+                                                <input matInput [(ngModel)]="cCpfCli" placeholder="CPF" [ngModelOptions]="{standalone: true}">
+                                          </mat-form-field>
+                  
+                                          <mat-form-field class="campo" appearance="outline">
+                                                <input value={{address}} matInput placeholder="Endereço do Cliente"
+                                                type="text" (keydown.enter)="$event.preventDefault()" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #searchCli>
+                                          </mat-form-field>   
+
+                                          <p></p>
+                                          <button type="button" class="options" (click)="cadCli()" mat-button>Adicionar Cliente</button>
+                                          <button class="options" type="button" (click)="redirectTo('/provedor')" mat-button>Cancelar</button>
+                                    </form>
+                              </div>
+
+                              <div id="vinculos" style="display:none">
+                                    <strong>Vínculos da Caixa</strong>
+                                    <p></p>
+                                    <p style="height:30px;"></p>
+                                    
+                                    <strong>Vincular:</strong>
+                                    <p></p>
+                                    Selecione uma caixa para vincular a esta caixa:
+                                    <p></p>
+                                    <form class="form">
+                                          <mat-form-field class="campo-select">
+                                                <mat-select [(value)]="caixaFinal" placeholder="Selecione uma caixa">
+                                                    <mat-option *ngFor="let v of vinculosDisponiveis" [value]="v">{{v.nome}}</mat-option>
+                                              </mat-select>
+                                            </mat-form-field>
+                                            <p></p>
+                                          <button type="button" (click)="vincular()" class="options" mat-button>Vincular</button>
+                                    </form>
+                                    <p style="height:30px;"></p>
+                                    <strong>Desvincular:</strong>
+                                    <form class="form">
+                                          <mat-form-field class="campo-select">
+                                                <mat-select [(value)]="caixaADesvincular" placeholder="Selecione uma caixa">
+                                                    <mat-option *ngFor="let va of vinculosAtuais" [value]="va">{{va.nome}}</mat-option>
+                                              </mat-select>
+                                            </mat-form-field>
+                                            <p></p>
+                                          <button type="button" (click)="desvincularCaixa()" class="options" mat-button>Desvincular</button>
+                                    </form>
+
+                              </div>
+
+                              <div id="telaNotificacoes" style="display:none">
+                                          <strong>Notificações</strong>
+                                          <p></p>
+                                          <p style="height:30px;"></p>
+                                          <mat-card style="white-space:pre-wrap;" class="notificacao" *ngFor="let n of notificacoes">
+                                                <strong>{{n.descricao}}</strong>
+                                                <p></p>
+                                                
+                                                <button style="margin-left:395px;" *ngIf="n.descricao =='Um novo cliente foi adicionado!'; else block" type="button" (click)="removeNotificacao(n.id)" class="options-notificacao-remove" mat-button>Remover</button>
+                                                <button *ngIf="n.descricao =='Um novo cliente foi adicionado!'; else block" (click)="atualizaLocalizacao(n.latitude, n.longitude)" type="button" class="options-notificacao" mat-button>Ver no Mapa</button>
+                                                <button style="margin-left:480px;" *ngIf="n.tipo =='dist'; else block" (click)="atualizaLocalizacao(n.latitude, n.longitude)" type="button" class="options-notificacao" mat-button>Ver no Mapa</button>
+                     
+                                          </mat-card>
+      
+                                    </div>
+                  </mat-card>
+            </div>
+    </div>
+</div>
